@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4">Admin Dashboard</h2>
+		
+	    <div th:if="${message ne null}" class="alert alert-success" role="alert">
+			<p th:text="${message}"></p>
+		</div>
+        
+        <div class="list-group">
+            <a href="/admin/edit" class="list-group-item list-group-item-action">Edit Profile</a>
+            <a href="/admin/edit-education" class="list-group-item list-group-item-action">Edit Education</a>
+            <a href="/admin/edit-experience" class="list-group-item list-group-item-action">Edit Experience</a>
+            <a href="/admin/edit-projects" class="list-group-item list-group-item-action">Edit Projects</a>
+            <a href="/admin/edit-skills" class="list-group-item list-group-item-action">Edit Skills</a>
+			<a href="/profile" class="list-group-item list-group-item-action text-warning">Go to home</a>
+        </div>
+    </div>
+</body>
+</html>
