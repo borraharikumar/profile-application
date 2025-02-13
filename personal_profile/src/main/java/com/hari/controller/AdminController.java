@@ -35,8 +35,15 @@ public class AdminController {
 
 	@GetMapping("/edit")
 	public String showProfileEditPage(Model model) {
-		UserProfile userProfile = new UserProfile();
-		userProfile.setProfileId(1000);
+		UserProfile userProfile = profileService.getProfile(1000);
+		if(userProfile == null) {
+			userProfile = new UserProfile();
+			userProfile.setProfileId(1000);
+			userProfile.setFullName("Harikumar Borra");
+			userProfile.setEmail("harikumarborra3@gmail.com");
+			userProfile.setMobileNumber("+91 9381815664");
+			userProfile.setProfileSummary("Place profile summary Here");
+		}
 		model.addAttribute("profile", userProfile);
 		return "user-profile";
 	}

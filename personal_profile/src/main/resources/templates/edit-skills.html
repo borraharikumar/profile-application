@@ -11,7 +11,7 @@
     <h2 class="my-4">Edit Skills</h2>
 
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#skillsModal" onclick="openSkillsModal()">+ Add New</button>
-	<a class="btn btn-success mb-3" href="dashboard">Go to dashboard</a>
+    <a class="btn btn-success mb-3" href="dashboard">Go to dashboard</a>
 
     <div class="row">
         <div class="col-md-6" th:each="skill : ${skills}">
@@ -19,10 +19,11 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${skill.category}"></h5>
                     <p class="card-text">
-                        <strong>Skills:</strong> <span th:text="${skill.skills}"></span>
+                        <strong>Skills:</strong>
+                        <span th:text="${#strings.arrayJoin(skill.skills, ', ')}"></span>
                     </p>
                     <button class="btn btn-warning btn-sm"
-                            th:attr="onclick=|openSkillsModal('${skill.skillId}', '${skill.category}', '${skill.skills}')|">
+                            th:attr="onclick=|openSkillsModal('${skill.skillId}', '${skill.category}', '${#strings.arrayJoin(skill.skills, ', ')}')|">
                         Edit
                     </button>
                     <button class="btn btn-danger btn-sm" th:attr="onclick=|deleteSkill('${skill.skillId}')|">Remove</button>
@@ -75,7 +76,8 @@
         skillsContainer.innerHTML = '';
 
         if (skills) {
-            skills.split(', ').forEach(skill => addSkill(skill));
+            let skillArray = skills.includes('[') ? JSON.parse(skills) : skills.split(', ');
+            skillArray.forEach(skill => addSkill(skill));
         } else {
             addSkill();
         }

@@ -29,10 +29,10 @@
                     <ul>
                         <li th:each="role : ${project.rolesAndResp}" th:text="${role}"></li>
                     </ul>
-                    <button class="btn btn-warning btn-sm"
-                            th:attr="onclick=|openProjectModal('${project.projectId}', '${project.projectName}', '${project.client}', '${project.role}', '${project.projectDescription}', ${project.rolesAndResp})|">
-                        Edit
-                    </button>
+					<button class="btn btn-warning btn-sm"
+					th:attr="onclick=|openProjectModal('${project.projectId}', '${project.projectName}', '${project.client}', '${project.role}', '${project.projectDescription}', '${#strings.arrayJoin(project.rolesAndResp, '||')}')|">
+					    Edit
+					</button>
                     <button class="btn btn-danger btn-sm" th:attr="onclick=|deleteProject('${project.projectId}')|">Remove</button>
                 </div>
             </div>
@@ -87,24 +87,25 @@
 </div>
 
 <script>
-    function openProjectModal(id = '', name = '', client = '', role = '', description = '', roles = []) {
-        document.getElementById('projectId').value = id;
-        document.getElementById('projectName').value = name;
-        document.getElementById('client').value = client;
-        document.getElementById('role').value = role;
-        document.getElementById('projectDescription').value = description;
-        
-        const rolesContainer = document.getElementById('rolesContainer');
-        rolesContainer.innerHTML = '';
+	function openProjectModal(id = '', name = '', client = '', role = '', description = '', roles = '') {
+	    document.getElementById('projectId').value = id;
+	    document.getElementById('projectName').value = name;
+	    document.getElementById('client').value = client;
+	    document.getElementById('role').value = role;
+	    document.getElementById('projectDescription').value = description;
+	    
+	    const rolesContainer = document.getElementById('rolesContainer');
+	    rolesContainer.innerHTML = ''; // Clear old roles
 
-        if (roles.length > 0) {
-            roles.forEach(role => addRole(role));
-        } else {
-            addRole();
-        }
+	    if (roles) {
+	        let rolesArray = roles.split('||'); // Convert string back to array
+	        rolesArray.forEach(role => addRole(role.trim())); // Add roles dynamically
+	    } else {
+	        addRole(); // Add empty input for new project
+	    }
 
-        new bootstrap.Modal(document.getElementById('projectModal')).show();
-    }
+	    new bootstrap.Modal(document.getElementById('projectModal')).show();
+	}
 
     function addRole(value = '') {
         const rolesContainer = document.getElementById('rolesContainer');

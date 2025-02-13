@@ -1,6 +1,7 @@
 package com.hari.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,11 @@ public class ProfileServiceImpl implements IProfileService {
 
 	@Override
 	public UserProfile getProfile(Integer profileId) {
-		return profileRepository.findById(profileId).orElseThrow();
+		Optional<UserProfile> profile = profileRepository.findById(profileId);
+		if(profile.isPresent())
+			return profile.get();
+		else
+			return null;
 	}
 
 	@Override
